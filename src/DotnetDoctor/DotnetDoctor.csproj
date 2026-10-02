@@ -12,6 +12,7 @@
     <Version>1.0.0</Version>
     <Description>A .NET global tool that displays its version.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/capjan/dotnet-doctor</RepositoryUrl>
     <PackageOutputPath>../../artifacts</PackageOutputPath>
   </PropertyGroup>
 
