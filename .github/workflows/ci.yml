@@ -172,10 +172,10 @@ jobs:
       - name: Validate Trusted Publishing configuration
         if: steps.version.outputs.release == 'true'
         env:
-          NUGET_USER: ${{ vars.NUGET_USER }}
+          NUGET_USER: ${{ secrets.NUGET_USER }}
         run: |
           if [[ -z "$NUGET_USER" ]]; then
-            echo "Set the GitHub Actions repository variable NUGET_USER to the NuGet.org username that owns the Trusted Publishing policy." >&2
+            echo "Set the GitHub Actions repository secret NUGET_USER to the NuGet.org username that owns the Trusted Publishing policy." >&2
             exit 1
           fi
 
@@ -216,7 +216,7 @@ jobs:
         uses: NuGet/login@v1.2.0
         id: nuget-login
         with:
-          user: ${{ vars.NUGET_USER }}
+          user: ${{ secrets.NUGET_USER }}
 
       - name: Publish package
         if: steps.version.outputs.release == 'true'
