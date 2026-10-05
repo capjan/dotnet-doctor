@@ -1,0 +1,238 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+
+jobs:
+  test:
+    name: Build and test (${{ matrix.rid }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            rid: linux-x64
+          - os: windows-2025
+            rid: win-x64
+          - os: macos-15
+            rid: osx-arm64
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore dotnet-doctor.slnx
+
+      - name: Build
+        run: dotnet build dotnet-doctor.slnx --configuration Release --no-restore -p:TreatWarningsAsErrors=true
+
+      - name: Run all tests
+        run: dotnet test dotnet-doctor.slnx --configuration Release --no-build --no-restore --logger "trx;LogFileName=tests.trx" --results-directory artifacts/test-results
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-results-${{ matrix.rid }}
+          path: artifacts/test-results/*.trx
+          retention-days: 14
+
+      - name: Build tool package
+        run: dotnet pack src/DotnetDoctor/DotnetDoctor.csproj --configuration Release --no-restore --output artifacts/packages -p:TreatWarningsAsErrors=true
+
+      - name: Install and verify tool package
+        shell: pwsh
+        run: |
+          $toolDirectory = Join-Path $env:RUNNER_TEMP 'dotnet-doctor-tool'
+          $env:NUGET_PACKAGES = Join-Path $env:RUNNER_TEMP 'dotnet-doctor-package-cache'
+          [xml]$project = Get-Content src/DotnetDoctor/DotnetDoctor.csproj
+          $version = $project.Project.PropertyGroup.Version | Where-Object { $_ }
+          dotnet tool install cap.dotnetdoctor --tool-path $toolDirectory --version $version --source ./artifacts/packages
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $fileName = if ($IsWindows) { 'dotnet-doctor.exe' } else { 'dotnet-doctor' }
+          ./.github/scripts/Test-Tool.ps1 -ExecutablePath (Join-Path $toolDirectory $fileName)
+
+      - name: Install Linux Native AOT prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang zlib1g-dev
+
+      - name: Publish Native AOT
+        run: dotnet publish src/DotnetDoctor/DotnetDoctor.csproj --configuration Release --runtime ${{ matrix.rid }} --output artifacts/native -p:PublishAot=true -p:TreatWarningsAsErrors=true
+
+      - name: Verify native executable
+        shell: pwsh
+        run: |
+          $fileName = if ($IsWindows) { 'DotnetDoctor.exe' } else { 'DotnetDoctor' }
+          ./.github/scripts/Test-Tool.ps1 -ExecutablePath (Join-Path 'artifacts/native' $fileName)
+
+      - name: Upload tool package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: tool-package-${{ matrix.rid }}
+          path: artifacts/packages/*.nupkg
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish to NuGet
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Check for tool source changes
+        id: source-changes
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          if [[ "$BEFORE_SHA" == 0000000000000000000000000000000000000000 ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          set +e
+          git diff --quiet "$BEFORE_SHA" "$CURRENT_SHA" -- src/DotnetDoctor/
+          result=$?
+          set -e
+
+          if [[ "$result" -eq 0 ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          elif [[ "$result" -eq 1 ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            exit "$result"
+          fi
+
+      - name: Install git-cliff
+        if: steps.source-changes.outputs.changed == 'true'
+        uses: taiki-e/install-action@v2.85.5
+        with:
+          tool: git-cliff
+
+      - name: Determine release version
+        id: version
+        if: steps.source-changes.outputs.changed == 'true'
+        run: |
+          latest_tag=$(git describe --tags --match 'v[0-9]*' --abbrev=0 2>/dev/null || true)
+          if [[ -n "$latest_tag" ]]; then
+            current_version=${latest_tag#v}
+          else
+            current_version=$(sed -n 's/^initial_tag = "v\([^"]*\)"$/\1/p' cliff.toml)
+            baseline_commit=$(git rev-list --max-parents=0 HEAD | tail -n 1)
+            git tag "v$current_version" "$baseline_commit"
+          fi
+
+          next_version=$(git cliff --bumped-version)
+          next_version=${next_version#v}
+          if [[ "$next_version" == "$current_version" ]]; then
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "No Conventional Commit requires a package version bump."
+            exit 0
+          fi
+
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "version=$next_version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$next_version" >> "$GITHUB_OUTPUT"
+
+      - name: Validate Trusted Publishing configuration
+        if: steps.version.outputs.release == 'true'
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if [[ -z "$NUGET_USER" ]]; then
+            echo "Set the GitHub Actions repository variable NUGET_USER to the NuGet.org username that owns the Trusted Publishing policy." >&2
+            exit 1
+          fi
+
+      - name: Set up .NET 10
+        if: steps.version.outputs.release == 'true'
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build tool package
+        if: steps.version.outputs.release == 'true'
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+        run: dotnet pack src/DotnetDoctor/DotnetDoctor.csproj --configuration Release --output artifacts/packages -p:Version="$PACKAGE_VERSION" -p:TreatWarningsAsErrors=true
+
+      - name: Install and verify tool package
+        if: steps.version.outputs.release == 'true'
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+        shell: pwsh
+        run: |
+          $toolDirectory = Join-Path $env:RUNNER_TEMP 'dotnet-doctor-tool'
+          $env:NUGET_PACKAGES = Join-Path $env:RUNNER_TEMP 'dotnet-doctor-package-cache'
+          dotnet tool install cap.dotnetdoctor --tool-path $toolDirectory --version $env:PACKAGE_VERSION --source ./artifacts/packages
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./.github/scripts/Test-Tool.ps1 -ExecutablePath (Join-Path $toolDirectory 'dotnet-doctor')
+
+      - name: Generate changelog
+        if: steps.version.outputs.release == 'true'
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git cliff --tag "$RELEASE_TAG" --output CHANGELOG.md
+          grep -Fq "## $RELEASE_TAG -" CHANGELOG.md
+
+      - name: NuGet login (OIDC)
+        if: steps.version.outputs.release == 'true'
+        uses: NuGet/login@v1.2.0
+        id: nuget-login
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Publish package
+        if: steps.version.outputs.release == 'true'
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+        run: dotnet nuget push "artifacts/packages/cap.dotnetdoctor.$PACKAGE_VERSION.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Commit changelog and release tag
+        if: steps.version.outputs.release == 'true'
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "docs(changelog): release $RELEASE_TAG"
+          git tag -a "$RELEASE_TAG" -m "Release $RELEASE_TAG"
+          git -c push.followTags=false push origin HEAD:refs/heads/main "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"

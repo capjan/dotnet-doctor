@@ -1,0 +1,40 @@
+[changelog]
+header = "# Changelog\n\nNotable changes to dotnet-doctor are recorded here.\n"
+body = """
+{% if version %}## {{ version }} - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}## Unreleased
+{% endif %}
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group }}
+{% for commit in commits %}
+- {{ commit.message }}
+{% endfor %}
+{% endfor %}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+tag_pattern = "^v[0-9].*"
+sort_commits = "newest"
+commit_parsers = [
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Bug Fixes" },
+  { message = "^perf", group = "Performance" },
+  { message = "^refactor", group = "Refactoring" },
+  { message = "^docs", group = "Documentation" },
+  { message = "^test", group = "Tests" },
+  { message = "^ci", group = "CI" },
+  { message = "^build", group = "Build" },
+  { message = "^chore", group = "Maintenance" },
+  { message = "^revert", group = "Reverts" },
+  { message = ".*", group = "Other" },
+]
+
+[bump]
+initial_tag = "v1.0.3"
+features_always_bump_minor = true
+breaking_always_bump_major = true
+no_increment_regex = "chore|docs|ci|test|build|style"

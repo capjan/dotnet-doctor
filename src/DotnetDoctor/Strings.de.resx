@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RootDescription" xml:space="preserve"><value>Prüft Voraussetzungen für .NET-Entwicklungsumgebungen.</value></data>
+  <data name="DiagnoseCommandDescription" xml:space="preserve"><value>Führt Diagnosen aus.</value></data>
+  <data name="GitCommandDescription" xml:space="preserve"><value>Prüft, ob Git 2.9+ installiert ist.</value></data>
+  <data name="GitHooksCommandDescription" xml:space="preserve"><value>Prüft die Git-Hooks des Repositorys.</value></data>
+  <data name="CommitMsgCommandDescription" xml:space="preserve"><value>Prüft den commit-msg-Hook auf Conventional Commits.</value></data>
+  <data name="AllCommandDescription" xml:space="preserve"><value>Führt alle Diagnosen aus.</value></data>
+  <data name="FixCommandDescription" xml:space="preserve"><value>Behebt automatisch reparierbare Diagnosen.</value></data>
+  <data name="HelpOptionDescription" xml:space="preserve"><value>Zeigt die Hilfe an.</value></data>
+  <data name="DoctorSummary" xml:space="preserve"><value>Diagnose:</value></data>
+  <data name="RepairSummary" xml:space="preserve"><value>Reparatur:</value></data>
+  <data name="GitVersionLabel" xml:space="preserve"><value>Git-Version</value></data>
+  <data name="GitNotFound" xml:space="preserve"><value>nicht auf PATH gefunden (erforderlich: 2.9+)</value></data>
+  <data name="GitVersionReportFailed" xml:space="preserve"><value>Version konnte nicht ermittelt werden</value></data>
+  <data name="GitVersionUnreadable" xml:space="preserve"><value>Version nicht lesbar</value></data>
+  <data name="GitVersionTooOld" xml:space="preserve"><value>{0} zu alt (erforderlich: 2.9+)</value></data>
+  <data name="GitVersionInstalled" xml:space="preserve"><value>{0} (erforderlich: 2.9+)</value></data>
+  <data name="GitHooksLabel" xml:space="preserve"><value>Git-Hooks</value></data>
+  <data name="GitHooksConfigured" xml:space="preserve"><value>.githooks als Hooks-Verzeichnis konfiguriert</value></data>
+  <data name="HookPermissionsLabel" xml:space="preserve"><value>Hook-Berechtigungen</value></data>
+  <data name="HookFilesReadFailed" xml:space="preserve"><value>Dateien in .githooks nicht lesbar</value></data>
+  <data name="HookFilesReadDenied" xml:space="preserve"><value>kein Zugriff auf .githooks</value></data>
+  <data name="HookFilesMissing" xml:space="preserve"><value>keine Hooks in .githooks</value></data>
+  <data name="HookPermissionsWindows" xml:space="preserve"><value>unter Windows nicht prüfbar</value></data>
+  <data name="HookPermissionsReadFailed" xml:space="preserve"><value>Dateirechte in .githooks nicht lesbar</value></data>
+  <data name="HookPermissionsReadDenied" xml:space="preserve"><value>kein Zugriff auf Dateirechte in .githooks</value></data>
+  <data name="HookPermissionsUnsupported" xml:space="preserve"><value>auf dieser Plattform nicht prüfbar</value></data>
+  <data name="HookFilesNotExecutable" xml:space="preserve"><value>nicht ausführbar: {0}</value></data>
+  <data name="OneHookExecutable" xml:space="preserve"><value>Hook-Skript ist ausführbar</value></data>
+  <data name="ManyHooksExecutable" xml:space="preserve"><value>Alle {0} Hook-Skripte sind ausführbar</value></data>
+  <data name="CommitMessageHookLabel" xml:space="preserve"><value>Commit-Message-Hook</value></data>
+  <data name="CommitHookSetupUnavailable" xml:space="preserve"><value>Prüfung blockiert: {0}</value></data>
+  <data name="CommitHookMissing" xml:space="preserve"><value>fehlt in .githooks</value></data>
+  <data name="CommitHookNotExecutable" xml:space="preserve"><value>commit-msg-Hook hat kein Ausführungsrecht</value></data>
+  <data name="CommitHookGitVersionUnknown" xml:space="preserve"><value>Git-Version nicht ermittelbar</value></data>
+  <data name="CommitHookCouldNotRun" xml:space="preserve"><value>mit installierter Git-Version nicht ausführbar</value></data>
+  <data name="CommitHookValidRejected" xml:space="preserve"><value>gültige Conventional-Commit-Nachricht abgelehnt: „{0}“</value></data>
+  <data name="CommitHookValidChanged" xml:space="preserve"><value>gültige Nachricht in ungültiges Conventional-Commit-Format geändert</value></data>
+  <data name="CommitHookInvalidAccepted" xml:space="preserve"><value>ungültige Nachricht akzeptiert</value></data>
+  <data name="CommitHookSuccess" xml:space="preserve"><value>erzwingt das Conventional-Commit-Format</value></data>
+  <data name="CommitHookTempReadFailed" xml:space="preserve"><value>temporäre Testnachrichten nicht verfügbar</value></data>
+  <data name="CommitHookTempReadDenied" xml:space="preserve"><value>kein Zugriff auf temporäre Testnachrichten</value></data>
+  <data name="GitNotFoundOnPath" xml:space="preserve"><value>git nicht auf PATH gefunden</value></data>
+  <data name="NotGitWorkingTree" xml:space="preserve"><value>aktuelles Verzeichnis ist kein Git-Working-Tree</value></data>
+  <data name="GitCouldNotStart" xml:space="preserve"><value>git konnte nicht starten</value></data>
+  <data name="LocalHooksPathElsewhere" xml:space="preserve"><value>core.hooksPath verweist anderswo; unverändert</value></data>
+  <data name="LocalHooksPathReadFailed" xml:space="preserve"><value>core.hooksPath nicht lesbar: {0}</value></data>
+  <data name="EffectiveHooksPathCouldNotRead" xml:space="preserve"><value>effektives core.hooksPath nicht lesbar</value></data>
+  <data name="EffectiveHooksPathElsewhere" xml:space="preserve"><value>effektives core.hooksPath verweist anderswo; unverändert</value></data>
+  <data name="EffectiveHooksPathReadFailed" xml:space="preserve"><value>effektives core.hooksPath nicht lesbar: {0}</value></data>
+  <data name="HooksDirectoryEnsured" xml:space="preserve"><value>.githooks ist vorhanden</value></data>
+  <data name="HooksDirectoryCreateFailed" xml:space="preserve"><value>.githooks-Verzeichnis konnte nicht erstellt werden</value></data>
+  <data name="HooksDirectoryCreateDenied" xml:space="preserve"><value>kein Zugriff auf .githooks</value></data>
+  <data name="LocalHooksPathSetFailed" xml:space="preserve"><value>core.hooksPath nicht auf .githooks setzbar</value></data>
+  <data name="LocalHooksPathSet" xml:space="preserve"><value>core.hooksPath auf .githooks gesetzt</value></data>
+  <data name="EffectiveHooksPathMismatch" xml:space="preserve"><value>effektives core.hooksPath verweist anderswo; Hooks unverändert</value></data>
+  <data name="DefaultCommitHookInstalled" xml:space="preserve"><value>Standard-Validator für Conventional Commits installiert</value></data>
+  <data name="ExistingCommitHookKept" xml:space="preserve"><value>vorhandener Hook beibehalten</value></data>
+  <data name="DefaultCommitHookInstallFailed" xml:space="preserve"><value>Standard-Validator nicht installierbar</value></data>
+  <data name="DefaultCommitHookInstallDenied" xml:space="preserve"><value>kein Zugriff zum Installieren des Standard-Validators</value></data>
+  <data name="HookPermissionSetFailed" xml:space="preserve"><value>Ausführungsrecht für {0} nicht setzbar</value></data>
+  <data name="HookPermissionSetDenied" xml:space="preserve"><value>kein Zugriff auf {0}</value></data>
+  <data name="HookPermissionUpdateUnsupported" xml:space="preserve"><value>Berechtigungen auf dieser Plattform nicht änderbar</value></data>
+  <data name="ProcessTimedOut" xml:space="preserve"><value>Zeitlimit überschritten ({0} s)</value></data>
+  <data name="HooksPathNotSet" xml:space="preserve"><value>core.hooksPath nicht gesetzt (erwartet: .githooks)</value></data>
+  <data name="HooksPathReadFailed" xml:space="preserve"><value>core.hooksPath nicht lesbar: {0}</value></data>
+  <data name="HooksPathShouldBeLocal" xml:space="preserve"><value>core.hooksPath muss auf .githooks zeigen (aktuell: {0})</value></data>
+  <data name="HooksPathEffectiveReadFailed" xml:space="preserve"><value>effektives core.hooksPath nicht lesbar</value></data>
+  <data name="HooksPathEffectiveWrong" xml:space="preserve"><value>core.hooksPath verweist nicht auf .githooks im Repository</value></data>
+  <data name="HooksDirectoryMissing" xml:space="preserve"><value>.githooks fehlt</value></data>
+</root>

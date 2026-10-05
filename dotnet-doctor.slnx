@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/DotnetDoctor/DotnetDoctor.csproj" />
+  <Project Path="tests/DotnetDoctor.Tests/DotnetDoctor.Tests.csproj" />
+</Solution>

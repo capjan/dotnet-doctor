@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RootDescription" xml:space="preserve"><value>Diagnose common .NET development environment requirements.</value></data>
+  <data name="DiagnoseCommandDescription" xml:space="preserve"><value>Run environment diagnostics.</value></data>
+  <data name="GitCommandDescription" xml:space="preserve"><value>Check that Git 2.9 or later is installed.</value></data>
+  <data name="GitHooksCommandDescription" xml:space="preserve"><value>Check repository-local Git hooks.</value></data>
+  <data name="CommitMsgCommandDescription" xml:space="preserve"><value>Check that the commit-msg hook enforces Conventional Commits.</value></data>
+  <data name="AllCommandDescription" xml:space="preserve"><value>Run every diagnostic.</value></data>
+  <data name="FixCommandDescription" xml:space="preserve"><value>Repair diagnostics that can be fixed safely.</value></data>
+  <data name="HelpOptionDescription" xml:space="preserve"><value>Show help and usage information.</value></data>
+  <data name="DoctorSummary" xml:space="preserve"><value>Doctor summary:</value></data>
+  <data name="RepairSummary" xml:space="preserve"><value>Repair summary:</value></data>
+  <data name="GitVersionLabel" xml:space="preserve"><value>Git version</value></data>
+  <data name="GitNotFound" xml:space="preserve"><value>not found on PATH; 2.9 or later is required</value></data>
+  <data name="GitVersionReportFailed" xml:space="preserve"><value>Git could not report its version</value></data>
+  <data name="GitVersionUnreadable" xml:space="preserve"><value>could not read the installed version</value></data>
+  <data name="GitVersionTooOld" xml:space="preserve"><value>{0} detected; 2.9 or later is required</value></data>
+  <data name="GitVersionInstalled" xml:space="preserve"><value>{0} (2.9 or later required)</value></data>
+  <data name="GitHooksLabel" xml:space="preserve"><value>Git hooks</value></data>
+  <data name="GitHooksConfigured" xml:space="preserve"><value>repository-local .githooks is configured</value></data>
+  <data name="HookPermissionsLabel" xml:space="preserve"><value>Hook permissions</value></data>
+  <data name="HookFilesReadFailed" xml:space="preserve"><value>could not read files in .githooks</value></data>
+  <data name="HookFilesReadDenied" xml:space="preserve"><value>permission denied while reading .githooks</value></data>
+  <data name="HookFilesMissing" xml:space="preserve"><value>no hook scripts found in .githooks</value></data>
+  <data name="HookPermissionsWindows" xml:space="preserve"><value>cannot verify executable permissions on Windows</value></data>
+  <data name="HookPermissionsReadFailed" xml:space="preserve"><value>could not read file permissions in .githooks</value></data>
+  <data name="HookPermissionsReadDenied" xml:space="preserve"><value>permission denied while reading file permissions in .githooks</value></data>
+  <data name="HookPermissionsUnsupported" xml:space="preserve"><value>permission verification is not supported on this platform</value></data>
+  <data name="HookFilesNotExecutable" xml:space="preserve"><value>not executable: {0}</value></data>
+  <data name="OneHookExecutable" xml:space="preserve"><value>Hook script is executable</value></data>
+  <data name="ManyHooksExecutable" xml:space="preserve"><value>All {0} hook scripts are executable</value></data>
+  <data name="CommitMessageHookLabel" xml:space="preserve"><value>Commit message hook</value></data>
+  <data name="CommitHookSetupUnavailable" xml:space="preserve"><value>probe blocked: {0}</value></data>
+  <data name="CommitHookMissing" xml:space="preserve"><value>missing from .githooks</value></data>
+  <data name="CommitHookNotExecutable" xml:space="preserve"><value>commit-msg hook is not executable</value></data>
+  <data name="CommitHookGitVersionUnknown" xml:space="preserve"><value>could not determine the Git version needed to run it</value></data>
+  <data name="CommitHookCouldNotRun" xml:space="preserve"><value>could not run on this platform with the installed Git version</value></data>
+  <data name="CommitHookValidRejected" xml:space="preserve"><value>rejected a valid Conventional Commit message: "{0}"</value></data>
+  <data name="CommitHookValidChanged" xml:space="preserve"><value>changed a valid message into an invalid Conventional Commit message</value></data>
+  <data name="CommitHookInvalidAccepted" xml:space="preserve"><value>accepted an invalid message without correcting it</value></data>
+  <data name="CommitHookSuccess" xml:space="preserve"><value>enforces the Conventional Commits format</value></data>
+  <data name="CommitHookTempReadFailed" xml:space="preserve"><value>could not create or read temporary probe messages</value></data>
+  <data name="CommitHookTempReadDenied" xml:space="preserve"><value>permission denied while preparing temporary probe messages</value></data>
+  <data name="GitNotFoundOnPath" xml:space="preserve"><value>git was not found on PATH</value></data>
+  <data name="NotGitWorkingTree" xml:space="preserve"><value>current directory is not inside a Git working tree</value></data>
+  <data name="GitCouldNotStart" xml:space="preserve"><value>git could not be started</value></data>
+  <data name="LocalHooksPathElsewhere" xml:space="preserve"><value>existing local core.hooksPath points elsewhere; left unchanged</value></data>
+  <data name="LocalHooksPathReadFailed" xml:space="preserve"><value>could not read repository core.hooksPath: {0}</value></data>
+  <data name="EffectiveHooksPathCouldNotRead" xml:space="preserve"><value>could not read the effective core.hooksPath</value></data>
+  <data name="EffectiveHooksPathElsewhere" xml:space="preserve"><value>effective core.hooksPath points elsewhere; left unchanged</value></data>
+  <data name="EffectiveHooksPathReadFailed" xml:space="preserve"><value>could not read the effective core.hooksPath: {0}</value></data>
+  <data name="HooksDirectoryEnsured" xml:space="preserve"><value>ensured repository-local .githooks directory exists</value></data>
+  <data name="HooksDirectoryCreateFailed" xml:space="preserve"><value>could not create .githooks directory</value></data>
+  <data name="HooksDirectoryCreateDenied" xml:space="preserve"><value>permission denied while creating .githooks</value></data>
+  <data name="LocalHooksPathSetFailed" xml:space="preserve"><value>could not set repository-local core.hooksPath to .githooks</value></data>
+  <data name="LocalHooksPathSet" xml:space="preserve"><value>set repository-local core.hooksPath to .githooks</value></data>
+  <data name="EffectiveHooksPathMismatch" xml:space="preserve"><value>effective core.hooksPath still points elsewhere; left hook files unchanged</value></data>
+  <data name="DefaultCommitHookInstalled" xml:space="preserve"><value>installed the default Conventional Commits validator</value></data>
+  <data name="ExistingCommitHookKept" xml:space="preserve"><value>kept the existing hook without replacing it</value></data>
+  <data name="DefaultCommitHookInstallFailed" xml:space="preserve"><value>could not install the default validator</value></data>
+  <data name="DefaultCommitHookInstallDenied" xml:space="preserve"><value>permission denied while installing the default validator</value></data>
+  <data name="HookPermissionSetFailed" xml:space="preserve"><value>could not set executable permission on {0}</value></data>
+  <data name="HookPermissionSetDenied" xml:space="preserve"><value>permission denied while updating {0}</value></data>
+  <data name="HookPermissionUpdateUnsupported" xml:space="preserve"><value>permission updates are not supported on this platform</value></data>
+  <data name="ProcessTimedOut" xml:space="preserve"><value>timed out after {0} seconds</value></data>
+  <data name="HooksPathNotSet" xml:space="preserve"><value>core.hooksPath is not set in the repository configuration; expected .githooks</value></data>
+  <data name="HooksPathReadFailed" xml:space="preserve"><value>could not read repository core.hooksPath: {0}</value></data>
+  <data name="HooksPathShouldBeLocal" xml:space="preserve"><value>repository core.hooksPath must point to .githooks (configured: {0})</value></data>
+  <data name="HooksPathEffectiveReadFailed" xml:space="preserve"><value>could not read the effective core.hooksPath</value></data>
+  <data name="HooksPathEffectiveWrong" xml:space="preserve"><value>the effective core.hooksPath does not point to repository-local .githooks</value></data>
+  <data name="HooksDirectoryMissing" xml:space="preserve"><value>.githooks directory does not exist</value></data>
+</root>
