@@ -15,6 +15,9 @@ internal static class DoctorApplication
     public static int DiagnoseCommitMessageHook() =>
         DoctorReport.Write(Strings.DoctorSummary, [CommitMessageHookDiagnostic.Check()]);
 
+    public static int DiagnoseGlobalJson() =>
+        DoctorReport.Write(Strings.DoctorSummary, GlobalJsonDiagnostic.Check());
+
     public static int DiagnoseAll() => DoctorReport.Write(Strings.DoctorSummary, CheckAll());
 
     public static int Fix()
@@ -34,5 +37,9 @@ internal static class DoctorApplication
         }
 
         yield return CommitMessageHookDiagnostic.Check();
+        foreach (var result in GlobalJsonDiagnostic.Check())
+        {
+            yield return result;
+        }
     }
 }

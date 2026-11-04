@@ -5,8 +5,8 @@
 <h1 align="center">dotnet-doctor</h1>
 
 <p align="center">
-  Give your .NET workflow's Git setup a check-up.<br>
-  Diagnose Git, hooks, and commit-message validation — then repair common setup issues.
+  Give your .NET workflow a check-up.<br>
+  Diagnose SDK selection, Git, hooks, and commit-message validation — then repair common setup issues.
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@ dotnet doctor
 
 The global tool requires the .NET 10 runtime.
 
-`dotnet doctor` runs every diagnostic in order: Git, Git hooks, then the `commit-msg` hook. To set up supported hook configuration, run:
+`dotnet doctor` runs every diagnostic in order: Git, Git hooks, the `commit-msg` hook, then .NET SDK selection. To set up supported hook configuration, run:
 
 ```sh
 dotnet doctor fix
@@ -42,6 +42,7 @@ dotnet doctor fix
 | Git | Git 2.9 or later is installed and available on `PATH`. |
 | Git hooks | `core.hooksPath` points to `.githooks`, and hook files are executable where the platform supports that check. |
 | `commit-msg` | The configured hook accepts a valid commit message and rejects an invalid one. |
+| `global.json` | The SDK selected by the applicable `global.json` supports the target frameworks declared directly in project files. |
 
 ## Commands
 
@@ -52,6 +53,7 @@ dotnet doctor fix
 | `dotnet doctor diagnose git` | Check the Git installation. |
 | `dotnet doctor diagnose git-hooks` | Check the repository's Git hook configuration. |
 | `dotnet doctor diagnose commit-msg` | Probe the `commit-msg` hook's behavior. |
+| `dotnet doctor diagnose global-json` | Check the selected SDK against project target frameworks. |
 | `dotnet doctor fix` | Repair supported Git hook configuration, then run all diagnostics again. |
 | `dotnet doctor --version` | Print the installed tool version. |
 | `dotnet doctor --help` | Show available options. |
@@ -64,7 +66,7 @@ dotnet doctor fix
 
 The repair command creates `.githooks` if needed, points the repository-local `core.hooksPath` there when no hooks path is configured, installs a basic Conventional Commits `commit-msg` validator if one is missing, and adds the user-execute bit to hook files on Unix-like systems.
 
-It preserves an existing custom hooks path and an existing `commit-msg` hook. It does not install or upgrade Git. If an existing hook fails the behavior check, it still needs manual repair.
+It preserves an existing custom hooks path and an existing `commit-msg` hook. It does not install or upgrade Git. If an existing hook fails the behavior check, it still needs manual repair. The final diagnostics also report SDK compatibility problems and leave `global.json` unchanged.
 
 </details>
 
@@ -79,6 +81,7 @@ The built-in Conventional Commit validator expects a lowercase type, such as `fe
 <summary>Platform and language notes</summary>
 
 - On Windows, POSIX execute-bit checks cannot be verified, so the tool reports that limitation.
+- The `global.json` check uses the SDK selected from the current working directory and reads `TargetFramework` and `TargetFrameworks` declared directly in `.csproj` files. Frameworks supplied by imported MSBuild files are reported as unverified.
 - The hook behavior probe uses `git hook run` when available (Git 2.43 or later). On older Git versions, it runs the hook directly on Unix-like systems.
 - Diagnostic and repair messages follow the current UI culture. English is the fallback language, and German translations are included. Command names and arguments stay in English.
 
