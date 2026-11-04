@@ -17,6 +17,7 @@
   <data name="GitCommandDescription" xml:space="preserve"><value>Check that Git 2.9 or later is installed.</value></data>
   <data name="GitHooksCommandDescription" xml:space="preserve"><value>Check repository-local Git hooks.</value></data>
   <data name="CommitMsgCommandDescription" xml:space="preserve"><value>Check that the commit-msg hook enforces Conventional Commits.</value></data>
+  <data name="GlobalJsonCommandDescription" xml:space="preserve"><value>Check the SDK selected by global.json against project target frameworks.</value></data>
   <data name="AllCommandDescription" xml:space="preserve"><value>Run every diagnostic.</value></data>
   <data name="FixCommandDescription" xml:space="preserve"><value>Repair diagnostics that can be fixed safely.</value></data>
   <data name="HelpOptionDescription" xml:space="preserve"><value>Show help and usage information.</value></data>
@@ -42,6 +43,20 @@
   <data name="OneHookExecutable" xml:space="preserve"><value>Hook script is executable</value></data>
   <data name="ManyHooksExecutable" xml:space="preserve"><value>All {0} hook scripts are executable</value></data>
   <data name="CommitMessageHookLabel" xml:space="preserve"><value>Commit message hook</value></data>
+  <data name="GlobalJsonLabel" xml:space="preserve"><value>global.json SDK</value></data>
+  <data name="GlobalJsonNotFound" xml:space="preserve"><value>no global.json applies from this directory</value></data>
+  <data name="GlobalJsonInvalid" xml:space="preserve"><value>{0} is invalid or has an invalid SDK section</value></data>
+  <data name="GlobalJsonReadFailed" xml:space="preserve"><value>could not read {0}</value></data>
+  <data name="GlobalJsonCliNotFound" xml:space="preserve"><value>dotnet CLI was not found on PATH</value></data>
+  <data name="GlobalJsonSdkResolutionFailed" xml:space="preserve"><value>could not resolve SDK {0} from {1}; install a compatible SDK or review global.json</value></data>
+  <data name="GlobalJsonLatestSdk" xml:space="preserve"><value>the latest available SDK</value></data>
+  <data name="GlobalJsonProjectsReadFailed" xml:space="preserve"><value>could not enumerate project files under {0}</value></data>
+  <data name="GlobalJsonProjectReadFailed" xml:space="preserve"><value>could not read target frameworks from {0}</value></data>
+  <data name="GlobalJsonNoProjects" xml:space="preserve"><value>{0} selected SDK {1}; no project files were found</value></data>
+  <data name="GlobalJsonFrameworksUnknown" xml:space="preserve"><value>could not determine a static target framework in {0}; SDK {2} from {1} could not be compared (the framework may be imported)</value></data>
+  <data name="GlobalJsonFrameworksUnverified" xml:space="preserve"><value>could not assess compatibility for {0} in {1}; this check compares netX.Y and netcoreappX.Y frameworks</value></data>
+  <data name="GlobalJsonSdkTooOld" xml:space="preserve"><value>SDK {0} from {3} is too old for {1} in {2}; install a compatible SDK or review global.json</value></data>
+  <data name="GlobalJsonSdkCompatible" xml:space="preserve"><value>SDK {0} supports {1} in {2} (selected by {3})</value></data>
   <data name="CommitHookSetupUnavailable" xml:space="preserve"><value>probe blocked: {0}</value></data>
   <data name="CommitHookMissing" xml:space="preserve"><value>missing from .githooks</value></data>
   <data name="CommitHookNotExecutable" xml:space="preserve"><value>commit-msg hook is not executable</value></data>

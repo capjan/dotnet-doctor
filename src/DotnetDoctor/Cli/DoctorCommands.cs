@@ -25,6 +25,8 @@ internal static class DoctorCommands
         gitHooksCommand.SetAction(_ => DoctorApplication.DiagnoseGitHooks());
         var commitMsgCommand = new Command("commit-msg", Strings.CommitMsgCommandDescription);
         commitMsgCommand.SetAction(_ => DoctorApplication.DiagnoseCommitMessageHook());
+        var globalJsonCommand = new Command("global-json", Strings.GlobalJsonCommandDescription);
+        globalJsonCommand.SetAction(_ => DoctorApplication.DiagnoseGlobalJson());
         var allCommand = new Command("all", Strings.AllCommandDescription);
         allCommand.SetAction(_ => DoctorApplication.DiagnoseAll());
         var fixCommand = new Command("fix", Strings.FixCommandDescription);
@@ -32,6 +34,7 @@ internal static class DoctorCommands
         diagnoseCommand.Subcommands.Add(gitCommand);
         diagnoseCommand.Subcommands.Add(gitHooksCommand);
         diagnoseCommand.Subcommands.Add(commitMsgCommand);
+        diagnoseCommand.Subcommands.Add(globalJsonCommand);
         diagnoseCommand.Subcommands.Add(allCommand);
         rootCommand.Subcommands.Add(diagnoseCommand);
         rootCommand.Subcommands.Add(fixCommand);
